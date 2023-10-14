@@ -6,12 +6,11 @@ app = FastAPI()
 
 
 class Bd(BaseModel):
-    name: str
-    surname: str
+    fullname: str
     
     
 @app.get("/paths/{path}")
-def get_path(path: str):#мы вносим в get что то оно валидируется по классу и класс в параметр desired_path - являющийся локальной переменной и по ней через библеотеку вики ищем ссылку, если path это ссылка
+def get_path(path: str):
     path_of_content = wikipedia.page(path).url
     return{"data": path_of_content}
 
@@ -25,7 +24,7 @@ def get_query(query: str):
 
 @app.post("/bodies/{body}")
 def post_body(body: Bd):
-    person_info = wikipedia.page({body.name}, {body.surname}).content
+    person_info = wikipedia.page(body.fullname).content
     return {"status":200, "data": person_info}
     
     
